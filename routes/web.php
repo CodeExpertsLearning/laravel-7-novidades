@@ -12,7 +12,19 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+use \App\{Post, User};
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/posts/{post:slug}', function(Post $post){
+    dd($post); // find findOrFail
+});
+
+
+Route::get('/users/{user}/posts/{post:id}', function (User $user, Post $post) {
+    // users/1/posts/4
+    return $post;
+    dd($post); // find findOrFail
 });
