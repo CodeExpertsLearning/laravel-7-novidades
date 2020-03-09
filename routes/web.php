@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 use \App\{Post, User};
+use Illuminate\Support\Facades\Http;
 
 Route::get('/', function () {
     $posts = Post::all();
@@ -28,4 +29,19 @@ Route::get('/users/{user}/posts/{post:id}', function (User $user, Post $post) {
     // users/1/posts/4
     return $post;
     dd($post); // find findOrFail
+});
+
+Route::get('/http-client', function(){
+    // $githubUser = Http::get('http://api.github.com/users/NandoKstroNet');
+    // dd($githubUser);
+
+    $createUser = Http::post('https://reqres.in/api/users', [
+        'name' => 'Teste',
+        'job'  => 'job test'
+    ]);
+
+    if($createUser->clientError() || $createUser->serverError())
+        dd('Erro na requisição...');
+
+    return $createUser->json()['job'];
 });
